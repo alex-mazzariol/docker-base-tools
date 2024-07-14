@@ -1,0 +1,19 @@
+FROM registry.access.redhat.com/ubi8/ubi:latest
+
+# Install necessary packages
+RUN dnf -y update && \
+    dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y && \
+    dnf -y install dnf-plugins-core http://repo.okay.com.mx/centos/8/x86_64/release/okay-release-1-10.el8.noarch.rpm && \
+    dnf -y install freeswitch && \
+    dnf clean all
+
+# Set FreeSWITCH as the entrypoint
+ENTRYPOINT ["/usr/bin/freeswitch", "-nonat"]
+
+# Expose FreeSWITCH default ports
+EXPOSE 5060/udp 5080/tcp 5081/tcp 8021/tcp
+
+# Run FreeSWITCH as the default command
+CMD []
+
+RUN 

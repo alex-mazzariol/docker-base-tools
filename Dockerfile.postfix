@@ -1,0 +1,10 @@
+FROM registry.access.redhat.com/ubi8/ubi:latest
+
+# Install necessary packages
+RUN dnf -y update && \
+    dnf -y install postfix && \
+    dnf clean all
+
+EXPOSE 25
+
+CMD ["postfix", "start-fg"]
