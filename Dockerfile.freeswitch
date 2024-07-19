@@ -4,8 +4,11 @@ FROM registry.access.redhat.com/ubi8/ubi:latest
 RUN dnf -y update && \
     dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y && \
     dnf -y install dnf-plugins-core http://repo.okay.com.mx/centos/8/x86_64/release/okay-release-1-10.el8.noarch.rpm && \
-    dnf -y install freeswitch && \
-    dnf clean all
+    dnf -y install freeswitch freeswitch-lua luarocks lua-devel gcc gcc-c++ make expat-devel && \
+    dnf clean all && \
+    luarocks install luaexpat 1.4.1-1 && \
+    luarocks install luasocket 3.1.0-1 && \
+    luarocks install xml 1.1.3-1
 
 # Set FreeSWITCH as the entrypoint
 ENTRYPOINT ["/usr/bin/freeswitch", "-nonat"]
