@@ -1,0 +1,2 @@
+0 2 * * * postfix reload 2> /dev/null
+0 2 * * * dovecot reload

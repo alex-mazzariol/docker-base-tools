@@ -1,0 +1,30 @@
+FROM alpine:latest
+
+RUN apk add --no-cache --upgrade cyrus-sasl cronie cyrus-sasl-login && \
+    apk add --no-cache postfix lmdb opendkim \
+    dovecot dovecot-pop3d \
+    dovecot-pigeonhole-plugin && \
+    apk add --no-cache --upgrade ca-certificates \
+    tzdata \
+    supervisor \
+    rsyslog \
+    musl \
+    musl-utils \
+    bash \
+    opendkim-utils && \
+    mkdir /var/run/dovecot && \
+    chown -R dovecot:dovecot /var/run/dovecot && \
+    (rm "/tmp/"* 2>/dev/null || true) && (rm -rf /var/cache/apk/* 2>/dev/null || true)
+
+# Set up configuration
+COPY       mailsystem/supervisord.conf     /etc/supervisord.conf
+COPY       mailsystem/crontab              /etc/crontabs/root
+COPY       mailsystem/startup.sh           /usr/local/bin/startup.sh
+
+
+# Run supervisord
+USER       root
+WORKDIR    /tmp
+
+EXPOSE     587 25 993 995 110 143 4190
+CMD        ["supervisord", "-c", "/etc/supervisord.conf"]
