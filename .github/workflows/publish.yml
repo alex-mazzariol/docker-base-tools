@@ -25,7 +25,7 @@ jobs:
             image: alexmazzariol/freeswitch-rhel8
             dockerfile: Dockerfile.freeswitch
           - name: postfix
-            image: alexmazzariol/postfix-rhel8
+            image: alexmazzariol/postfix-ubi10
             dockerfile: Dockerfile.postfix
           - name: mailsystem
             image: alexmazzariol/mailsystem-rhel8

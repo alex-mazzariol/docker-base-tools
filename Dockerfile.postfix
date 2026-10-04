@@ -1,9 +1,8 @@
-FROM registry.access.redhat.com/ubi8/ubi:latest
+FROM registry.access.redhat.com/ubi10/ubi:10.2@sha256:454c3b22fd9dc97859df5a6bce662da1af5e3cf18313ef034190de3759392add
 
-# Install necessary packages
-RUN dnf -y update && \
-    dnf -y install postfix && \
-    dnf clean all
+RUN dnf -y install postfix-3.8.5-10.el10_2 && \
+    dnf clean all && \
+    rm -rf /var/cache/dnf
 
 EXPOSE 25
 
