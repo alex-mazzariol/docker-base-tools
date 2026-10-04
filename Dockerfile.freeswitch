@@ -18,5 +18,3 @@ EXPOSE 5060/udp 5080/tcp 5081/tcp 8021/tcp
 
 # Run FreeSWITCH as the default command
 CMD []
-
-RUN 
