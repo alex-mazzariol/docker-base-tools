@@ -21,9 +21,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: freeswitch
-            image: alexmazzariol/freeswitch-rhel8
-            dockerfile: Dockerfile.freeswitch
           - name: postfix
             image: alexmazzariol/postfix-ubi10
             dockerfile: Dockerfile.postfix
