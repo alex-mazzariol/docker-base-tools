@@ -1,9 +1,23 @@
-FROM registry.access.redhat.com/ubi10/ubi:10.2@sha256:454c3b22fd9dc97859df5a6bce662da1af5e3cf18313ef034190de3759392add
+FROM alpine:3.24.2@sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6
 
-RUN dnf -y install postfix-3.8.5-10.el10_2 && \
-    dnf clean all && \
-    rm -rf /var/cache/dnf
+RUN apk add --no-cache \
+      'postfix=3.11.7-r0' \
+      lmdb \
+      ca-certificates \
+      tzdata \
+    && rm -rf /var/cache/apk/*
+
+COPY postfix/startup.sh /usr/local/bin/startup.sh
+COPY postfix/healthcheck.sh /usr/local/bin/healthcheck.sh
+
+RUN chmod 0755 /usr/local/bin/startup.sh /usr/local/bin/healthcheck.sh
+
+USER root
+WORKDIR /tmp
 
 EXPOSE 25
 
-CMD ["postfix", "start-fg"]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+  CMD ["/usr/local/bin/healthcheck.sh"]
+
+ENTRYPOINT ["/usr/local/bin/startup.sh"]

@@ -22,7 +22,7 @@ jobs:
       matrix:
         include:
           - name: postfix
-            image: alexmazzariol/postfix-ubi10
+            image: alexmazzariol/postfix-alpine
             dockerfile: Dockerfile.postfix
             channel: ""
           - name: mailsystem
